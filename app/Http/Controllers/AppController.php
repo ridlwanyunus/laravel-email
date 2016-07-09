@@ -89,13 +89,28 @@ class AppController extends Controller
     public function sendEmail(Request $request)
     {
         $from = $request->from;
+        $sender = $request->from;
         $to = $request->to;
+        $cc = $request->from;
+        $bcc = $request->from;
+        $subject = "Your Remainder !!";
         $name = "Example";
-        $data = [$from, $to, $name];
+        $data = [   'from' => $from, 
+                    'sender' => $sender, 
+                    'to' => $to, 
+                    'cc' => $cc, 
+                    'bcc' => $bcc, 
+                    'subject' => $subject,
+                    'name' => $name
+                ];
         Mail::send('email', ['data' => $data], function ($m) use ($data) {
-            $m->from($data[0], 'Your Application');
+            $m->from($data['from'], 'Your Application');
 
-            $m->to($data[1], $data[2])->subject('Your Reminder!');
+            $m->to($data['to'], $data['name']);
+            $m->sender($data['sender'], $data['name']);
+            $m->cc($data['cc'], $data['name']);
+            $m->bcc($data['bcc'], $data['name']);
+            $m->subject($data['subject']);
         });
     }
 
