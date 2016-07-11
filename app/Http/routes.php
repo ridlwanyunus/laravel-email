@@ -13,3 +13,5 @@
 
 Route::resource('/', 'AppController');
 Route::get('/email', 'AppController@sendEmail');
+Route::get('/english', 'LanguageController@english');
+Route::get('/indonesia', 'LanguageController@indonesia');

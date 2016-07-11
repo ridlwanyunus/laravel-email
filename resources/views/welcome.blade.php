@@ -24,11 +24,12 @@
                }
                 ?>
             </div>
-             <form class="form-horizontal" action="{{ url('/email') }}" method="get">
+             <form class="form-horizontal" action="" method="">
               <div class="form-group">  
-                <button type="button" class="btn btn-default">English</button>
-                <button type="button" class="btn btn-default">Indonesia</button> 
+                <a href="{{ action('LanguageController@english') }}" type="button" class="btn btn-default" >English</a>
+                <a href="{{ action('LanguageController@indonesia') }}" type="button" class="btn btn-default" >Indonesia</a> 
               </div>
+              {{ Form::token() }}
              </form>
              <form class="form-horizontal" action="{{ url('/email') }}" method="get">
               <div class="form-group">

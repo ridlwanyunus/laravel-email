@@ -18,7 +18,6 @@ class AppController extends Controller
      */
     public function index()
     {
-        Lang::setlocale('id');
         return view('welcome')->with('newMessages', 5);
     }
 
