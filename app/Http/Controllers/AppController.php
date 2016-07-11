@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Mail;
 use App\user;
+use Lang;
 
 class AppController extends Controller
 {
@@ -17,7 +18,8 @@ class AppController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        Lang::setlocale('id');
+        return view('welcome')->with('newMessages', 5);
     }
 
     /**
@@ -88,30 +90,31 @@ class AppController extends Controller
 
     public function sendEmail(Request $request)
     {
-        $from = $request->from;
-        $sender = $request->from;
         $to = $request->to;
-        $cc = $request->from;
-        $bcc = $request->from;
-        $subject = "Your Remainder !!";
+        $cc = $request->cc;
+        $bcc = $request->bcc;
+        $subject = $request->subject;
         $name = "Example";
-        $data = [   'from' => $from, 
-                    'sender' => $sender, 
+        $content = $request->content;
+        $data = [   
                     'to' => $to, 
                     'cc' => $cc, 
                     'bcc' => $bcc, 
                     'subject' => $subject,
-                    'name' => $name
+                    'name' => $name,
+                    'content' => $content
                 ];
-        Mail::send('email', ['data' => $data], function ($m) use ($data) {
-            $m->from($data['from'], 'Your Application');
 
+        Mail::send('email', ['data' => $data], function ($m) use ($data) {
+            $m->from('hiddenjustice309@gmail.com', 'Your Application');
             $m->to($data['to'], $data['name']);
-            $m->sender($data['sender'], $data['name']);
+            $m->sender('hiddenjustice309@gmail.com', $data['name']);
             $m->cc($data['cc'], $data['name']);
             $m->bcc($data['bcc'], $data['name']);
             $m->subject($data['subject']);
         });
+        return View('email')->with('data', $data);
+        //return view('email', ['data' => $data]);
     }
 
 }
